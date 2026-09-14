@@ -3,48 +3,24 @@ public:
     vector<int> nextGreaterElements(vector<int>& nums) {
        
         int n = nums.size(); 
-        vector<int> ans(n);
-        int count=0;
+        vector<int> ans(n,-1);
         stack<int> st;
 
-        int i= n-1;
-        while(i>=0){
+        for(int i =2*n-1; i>=0; i--){
 
+            int ind= i%n ;
 
-            while( !st.empty() &&st.top() <= nums[i]){
+            while(!st.empty() && st.top() <= nums[ind]){
                 st.pop();
             }
 
-              if(st.empty()){
-                st.push(nums[i]);
+            if(!st.empty() && i<n){
+                ans[i]= st.top();
             }
-
-            else if( !st.empty() && nums[i] < st.top()){
-                    st.push(nums[i]);
-            }
-            i--;
+            st.push(nums[ind]);
 
         }
-        int k =n-1;
-        while(k>=0){
-
-            while(!st.empty() && nums[k] >= st.top() )
-            st.pop();
-
-            if(!st.empty() && st.top()>nums[k]){
-                ans[k]=st.top();
-                st.push(nums[k]);
-            }
-
-            else if(st.empty()){
-                ans[k]=-1;
-                st.push(nums[k]);
-            }
-
-        k--;
-
-        }
-
+        
 
     
 return ans;
