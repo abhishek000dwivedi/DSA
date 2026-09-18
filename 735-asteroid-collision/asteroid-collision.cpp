@@ -3,38 +3,38 @@ public:
     vector<int> asteroidCollision(vector<int>& asteroids) {
 
         int n = asteroids.size();
-        stack<int> st;
-        vector<int> ans;
+        vector<int> st;
+
 
        for(int &a : asteroids){
-        while(!st.empty() && a<0 && st.top()>0){
-            int sum = a + st.top();
+        while(!st.empty() && a<0 && st.back()>0){
+            int sum = a + st.back();
 
             if(sum<0){
-                st.pop();
+                st.pop_back();
             }
             else if(sum>0){
                 a=0;
             }
             else { //sum==0
-                st.pop();
+                st.pop_back();
                 a=0;
             }
         }
 
-            if(a!=0) st.push(a);
+            if(a!=0) st.push_back(a);
 
 
         
 
        }
 
-       while(!st.empty()){
-        ans.push_back(st.top());
-        st.pop();
-       }
-        reverse(ans.begin(),ans.end());
-       return ans;
+    //    while(!st.empty()){
+    //     ans.push_back(st.back());
+    //     st.pop_back();
+    //    }
+    //     reverse(ans.begin(),ans.end());
+       return st;
 
 
     }
