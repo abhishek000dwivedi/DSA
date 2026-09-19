@@ -1,31 +1,145 @@
 class Solution {
 public:
+    long long maxSum(vector<int>& nums){
+
+            vector<int> left(nums.size());
+            vector<int> right(nums.size());  
+            stack<int> st; 
+            //leftmax
+            for(int i=0 ; i<nums.size() ; i++){
+                
+                while(!st.empty() && nums[st.top()] <= nums[i]){
+                   
+                    st.pop();
+
+                }
+
+                if(st.empty()){
+                    left[i]=-1;
+
+                }
+
+                else{
+                    left[i]=st.top();
+                   
+                }
+                st.push(i);
+
+            }
+
+            while(!st.empty())
+               st.pop();
+
+            //rightmax
+            for(int i=nums.size()-1 ; i>=0; i--){
+                
+                while(!st.empty() && nums[st.top()] < nums[i]){
+                    st.pop();
+                }
+
+                if(st.empty()) {
+                    right[i]=nums.size();
+                }
+                else{
+                    right[i]=st.top();
+                }
+                st.push(i);
+
+            }
+            long long sum=0;
+
+            for(int i =0; i<nums.size(); i++){
+                int Lind = i-left[i];
+                int Rind = right[i] -i;
+
+                sum= sum+ 1LL*nums[i]*Lind*Rind;
+
+
+            }
+            return sum;
+
+    }
+
+
+        //sum min
+
+
+    long long minSum(vector<int>& nums){
+
+            vector<int> left(nums.size());
+            vector<int> right(nums.size());  
+            stack<int> st; 
+            //leftmax
+            for(int i=0 ; i<nums.size() ; i++){
+                
+                while(!st.empty() && nums[st.top()] >= nums[i]){
+                   
+                    st.pop();
+
+                }
+
+                if(st.empty()){
+                    left[i]=-1;
+
+                }
+
+                else{
+                    left[i]=st.top();
+                   
+                }
+                st.push(i);
+
+            }
+
+            while(!st.empty())
+               st.pop();
+
+            //rightmax
+            for(int i=nums.size()-1 ; i>=0; i--){
+                
+                while(!st.empty() && nums[st.top()] > nums[i]){
+                    st.pop();
+                }
+
+                if(st.empty()) {
+                    right[i]=nums.size();
+                }
+                else{
+                    right[i]=st.top();
+                }
+                st.push(i);
+
+            }
+            long long sum=0;
+
+            for(int i =0; i<nums.size(); i++){
+                int Lind = i-left[i];
+                int Rind = right[i] -i;
+
+                sum= sum+ 1LL*nums[i]*Lind*Rind;
+
+
+            }
+            return sum;
+
+    }
+
+
+
+
 
     long long subArrayRanges(vector<int>& nums) {
 
-        long long sum=0;
-        // vector<int> leftMaxprefix(nums.size());
-        // leftMaxprefix[0] = nums[0];
+        long long n = nums.size();
+    
+       
+            //max
+            long long maxi=  maxSum(nums);
 
-        // for(int i= 1 ; i< nums.size(); i++){
-        //     leftMaxprefix[i] = max(leftMaxprefix[i-1],nums[i]);
-        // }
-        
-        long long mini=INT_MAX;
-        long long maxi= INT_MIN;
+            long long mini= minSum(nums);
 
-        for(int i=0; i< nums.size() ; i++){
-            mini= INT_MAX;
-            maxi= INT_MIN;
-            for(int j=i; j<nums.size(); j++){
+      
 
-                mini= min(mini, 1LL* nums[j]);
-                maxi= max(maxi, 1LL* nums[j]);
-                sum= sum+ maxi-mini;
-            
-            }
-        }
-
-        return sum;
+        return maxi- mini;
     }
 };
