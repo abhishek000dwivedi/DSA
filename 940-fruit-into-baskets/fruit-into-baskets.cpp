@@ -21,17 +21,8 @@ public:
             left++;
           }
 
-            if(mpp.size()<=2) {
             count= max(count, right-left+1);
             right++;
-           }     
-
-           else if(left==right) right++;
-
-           else if(fruits[left] != fruits[right]){
-            right++;
-           }
-
             
         } 
 
